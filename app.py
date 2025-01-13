@@ -5,10 +5,11 @@ def add_task():
     foobar.close()
 
 
-def remove_task():
-    print_all_task()
-    task_idx = int(input('Enter the task number you would like to remove: '))
-    task_list = get_all_tasks()
+def remove_task(task_idx = 0):
+    print_incompleted_task()
+    if task_idx == 0:   # if the user is choosing to remove a task from menu  
+        task_idx = int(input("Enter the task's number you would like to remove: "))
+    task_list = get_incompleted_tasks()
     open('tasks', 'w').close()    # clears file of all tasks
     foobar = open('tasks', 'a')
     for index, task in enumerate(task_list):    # loops through task list, writing to task file, skipping the deleted task
@@ -17,19 +18,14 @@ def remove_task():
         foobar.write(f'{task}--*!->')
     foobar.close()
 
-def mark_task():
-    print("MARK TASK AS COMPLETE")
-
-
-def print_all_task():
-    result_list = get_all_tasks()
+def print_incompleted_task():
+    result_list = get_incompleted_tasks()
     print('\n')
     print('<------------TASKS------------->')
     for i in range(len(result_list)):
         print(f'{i + 1}: {result_list[i]}')
-
         
-def get_all_tasks():
+def get_incompleted_tasks():
     foobar = open('tasks', 'r')
     result = foobar.read()
     foobar.close()
@@ -37,27 +33,25 @@ def get_all_tasks():
     return [x for x in result_list if x]  # returns a list with all empty elements removed
 
 
+
 def main():
     while True:
         print('\n<---------MENU_OPTIONS--------->')
-        print('1: See all tasks')
+        print('1: See ongoing tasks')
         print('2: Add a task')
-        print('3: Mark task as complete')
-        print('4: Delete a task')
-        print('5: Exit app')
+        print('3: Remove/Complete a task')
+        print('4: Exit app')
         
-        choice = int(input('\nChoose an Option (1-5) from above: '))
+        choice = int(input('\nChoose an Option (1-4) from above: '))
 
         match choice:
             case 1:
-                print_all_task()
+                print_incompleted_task()
             case 2:
                 add_task()
             case 3:
-                mark_task()
-            case 4:
                 remove_task()
-            case 5:
+            case 4:
                 break
 
 
