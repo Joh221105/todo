@@ -53,6 +53,8 @@ def main():
                 remove_task()
             case 4:
                 break
+            case default:
+                print("Please enter an option 1-4.")
 
 
 if __name__ == "__main__":
