@@ -1,8 +1,9 @@
+# CLI based todo list
+
 def add_task():
     task = input('Please enter the task you would like to add: ')
-    foobar = open('tasks', 'a')
-    foobar.write(f'{task}--*!->')   # adds task and unique split marker for later split
-    foobar.close()
+    with open('tasks', 'a') as task_file:
+        task_file.write(f'{task}--*!->')   # adds task and unique split marker for later split
 
 
 def remove_task(task_idx = 0):
@@ -10,13 +11,11 @@ def remove_task(task_idx = 0):
     if task_idx == 0:   # if the user is choosing to remove a task from menu  
         task_idx = int(input("Enter the task's number you would like to remove: "))
     task_list = get_incompleted_tasks()
-    open('tasks', 'w').close()    # clears file of all tasks
-    foobar = open('tasks', 'a')
-    for index, task in enumerate(task_list):    # loops through task list, writing to task file, skipping the deleted task
-        if index + 1 == task_idx:
-            continue
-        foobar.write(f'{task}--*!->')
-    foobar.close()
+    with open('tasks', 'w') as task_file:           # overwrites existing tasks
+        for index, task in enumerate(task_list):    # loops through task list, writing to task file, skipping the deleted task
+            if index + 1 == task_idx:
+                continue
+            task_file.write(f'{task}--*!->')
 
 def print_incompleted_task():
     result_list = get_incompleted_tasks()
@@ -26,9 +25,8 @@ def print_incompleted_task():
         print(f'{i + 1}: {result_list[i]}')
         
 def get_incompleted_tasks():
-    foobar = open('tasks', 'r')
-    result = foobar.read()
-    foobar.close()
+    with open('tasks', 'r') as task_file:
+        result = task_file.read()
     result_list = result.split('--*!->')
     return [x for x in result_list if x]  # returns a list with all empty elements removed
 
@@ -53,7 +51,7 @@ def main():
                 remove_task()
             case 4:
                 break
-            case default:
+            case _:
                 print("Please enter an option 1-4.")
 
 
