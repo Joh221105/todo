@@ -1,3 +1,5 @@
+# CLI based todo list
+
 def add_task():
     task = input('Please enter the task you would like to add: ')
     with open('tasks', 'a') as task_file:
